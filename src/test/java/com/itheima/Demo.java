@@ -15,8 +15,8 @@ public class Demo {
         // 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
         //EnvironmentVariableCredentialsProvider credentialsProvider = CredentialsProviderFactory.newEnvironmentVariableCredentialsProvider();
 
-        String accessKeyId = "LTAI5t79nBy5KEyDbHYYt8uw";
-        String accessKeySecret = "naRJwlUOb4DHBojkqVTVxSNYFZ2B5M";
+        String accessKeyId = "123";
+        String accessKeySecret = "456";
         // 创建凭证提供者
         DefaultCredentialProvider provider = new DefaultCredentialProvider(accessKeyId, accessKeySecret);
 
