@@ -15,10 +15,9 @@ public class Demo {
         // 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
         //EnvironmentVariableCredentialsProvider credentialsProvider = CredentialsProviderFactory.newEnvironmentVariableCredentialsProvider();
 
-        //String accessKeyId = "123";
-        //String accessKeySecret = "456";
+
         // 创建凭证提供者
-        DefaultCredentialProvider provider = new DefaultCredentialProvider(accessKeyId, accessKeySecret);
+        DefaultCredentialProvider provider = new DefaultCredentialProvider();
 
         // 填写Bucket名称，例如examplebucket。
         String bucketName = "big-event-ws1";
