@@ -1,4 +1,4 @@
-package com.itheima;
+package com.itheima.utils;
 
 import com.aliyun.oss.*;
 import com.aliyun.oss.common.auth.*;
@@ -6,31 +6,24 @@ import com.aliyun.oss.common.comm.SignVersion;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
 import java.io.File;
+import java.io.InputStream;
 
-public class Demo {
+public class AliOssUtil {
 
-    public static void main(String[] args) throws Exception {
-        // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
-        String endpoint = "https://oss-cn-beijing.aliyuncs.com";
-        // 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
-        //EnvironmentVariableCredentialsProvider credentialsProvider = CredentialsProviderFactory.newEnvironmentVariableCredentialsProvider();
+    // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
+    private static final String endpoint = "https://oss-cn-beijing.aliyuncs.com";
 
-        String accessKeyId = "11";
-        String accessKeySecret = "22";
+    private static final String accessKeyId = "LTAI5tArDuznQ8JbrK4zeNev";
+    private static final String accessKeySecret = "nE050ykP55f7ZSYihpxKxrIj7bt3cR";
+    private static final String bucketName = "big-event-ws1";
+    private static final String region = "cn-beijing";
+
+    public static String uploadFile(String objectName, InputStream inputStream) throws Exception {
+        String url = "";
         // 创建凭证提供者
         DefaultCredentialProvider provider = new DefaultCredentialProvider(accessKeyId, accessKeySecret);
 
-        // 填写Bucket名称，例如examplebucket。
-        String bucketName = "big-event-ws1";
-        // 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。
-        String objectName = "01.png";
-        // 填写本地文件的完整路径，例如D:\\localpath\\examplefile.txt。
-        // 如果未指定本地路径，则默认从示例程序所属项目对应本地路径中上传文件。
-        String filePath= "/Users/ws/java资料/uploadfile/宠物用品.png";
-        // 填写Bucket所在地域。以华东1（杭州）为例，Region填写为cn-hangzhou。
-        String region = "cn-beijing";
 
-        // 创建OSSClient实例。
         // 当OSSClient实例不再使用时，调用shutdown方法以释放资源。
         ClientBuilderConfiguration clientBuilderConfiguration = new ClientBuilderConfiguration();
         clientBuilderConfiguration.setSignatureVersion(SignVersion.V4);
@@ -43,7 +36,7 @@ public class Demo {
 
         try {
             // 创建PutObjectRequest对象。
-            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, objectName, new File(filePath));
+            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, objectName, inputStream);
             // 如果需要上传时设置存储类型和访问权限，请参考以下示例代码。
             // ObjectMetadata metadata = new ObjectMetadata();
             // metadata.setHeader(OSSHeaders.OSS_STORAGE_CLASS, StorageClass.Standard.toString());
@@ -52,6 +45,8 @@ public class Demo {
 
             // 上传文件。
             PutObjectResult result = ossClient.putObject(putObjectRequest);
+            url = "https://" + bucketName + "." + endpoint.replaceFirst("https://", "") + "/" + objectName;
+            System.out.println("PutObjectResult:" + result);
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
                     + "but was rejected with an error response for some reason.");
@@ -69,5 +64,6 @@ public class Demo {
                 ossClient.shutdown();
             }
         }
+        return  url;
     }
 }

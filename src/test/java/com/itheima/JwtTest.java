@@ -19,7 +19,7 @@ public class JwtTest {
         claims.put("username", "张三");
         // 生成jwt的代码
         String token = JWT.create().withClaim("user", claims) //添加载荷
-                .withExpiresAt(new Date(System.currentTimeMillis())) // 设置过期时间
+                .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 12)) // 设置过期时间
                 .sign(Algorithm.HMAC256("itheima")); //指定算法，配置秘钥
         System.out.println(token);
     }
@@ -27,12 +27,19 @@ public class JwtTest {
     @Test
     public void testParse() {
         //    定义字符串，模拟token
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
-                ".eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6IuW8oOS4iSJ9LCJleHAiOjE3NzkwODk2NTh9" +
-                ".Xfn2teliQmJ9P8M6IMaTE1C2-xz9uf8lgizlJwRlFvk";
+        //String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9" +
+        //        ".eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6IuW8oOS4iSJ9LCJleHAiOjE3NzkwODk2NTh9" +
+        //        ".Xfn2teliQmJ9P8M6IMaTE1C2-xz9uf8lgizlJwRlFvk";
+
+        // 动态生成 token，避免过期问题
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", 1);
+        claims.put("username", "张三");
+        String token = JWT.create().withClaim("user", claims).withExpiresAt(new Date(
+                System.currentTimeMillis() + 1000 * 60 * 60 * 12)).sign(Algorithm.HMAC256("itheima"));
         JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256("itheima")).build();
         DecodedJWT decodedJWT = jwtVerifier.verify(token);
-        Map<String, Claim> claims = decodedJWT.getClaims();
-        System.out.println(claims.get("user"));
+        Map<String, Claim> claimsResult = decodedJWT.getClaims();
+        System.out.println(claimsResult.get("user"));
     }
 }

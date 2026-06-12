@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.itheima.RedisTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.019 s -- in com.itheima.RedisTest
