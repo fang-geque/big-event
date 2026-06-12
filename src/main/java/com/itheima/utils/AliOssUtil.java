@@ -13,8 +13,8 @@ public class AliOssUtil {
     // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
     private static final String endpoint = "https://oss-cn-beijing.aliyuncs.com";
 
-    private static final String accessKeyId = "LTAI5tArDuznQ8JbrK4zeNev";
-    private static final String accessKeySecret = "nE050ykP55f7ZSYihpxKxrIj7bt3cR";
+    private static final String accessKeyId = "111";
+    private static final String accessKeySecret = "222";
     private static final String bucketName = "big-event-ws1";
     private static final String region = "cn-beijing";
 
